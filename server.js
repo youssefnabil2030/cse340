@@ -1,30 +1,66 @@
-const express = require("express")
-const app = express()
+import express from 'express';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-require("dotenv").config()
+dotenv.config();
 
-app.set("view engine","ejs")
+const app = express();
+const port = process.env.PORT || 3000;
 
-app.use(express.static("public"))
+// Replicate __dirname in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-app.get("/",(req,res)=>{
-res.render("home",{title:"Home"})
-})
+// Set view engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-app.get("/organizations",(req,res)=>{
-res.render("organizations",{title:"Organizations"})
-})
+// Static middleware to serve the public folder (CSS and Images)
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get("/projects",(req,res)=>{
-res.render("projects",{title:"Projects"})
-})
+// Routes using async/await arrow functions
+app.get('/', async (req, res) => {
+    try {
+        res.render('home', { pageTitle: 'Home' });
+    } catch (error) {
+        res.status(500).send("Server Error");
+    }
+});
 
-app.get("/categories",(req,res)=>{
-res.render("categories",{title:"Categories"})
-})
+app.get('/organizations', async (req, res) => {
+    try {
+        res.render('organizations', { pageTitle: 'Organizations' });
+    } catch (error) {
+        res.status(500).send("Server Error");
+    }
+});
 
-const PORT = process.env.PORT || 3000
+app.get('/projects', async (req, res) => {
+    try {
+        res.render('projects', { pageTitle: 'Service Projects' });
+    } catch (error) {
+        res.status(500).send("Server Error");
+    }
+});
 
-app.listen(PORT,()=>{
-console.log("Server running")
-})
+app.get('/categories', async (req, res) => {
+    try {
+        const projectCategories = [
+            'Environmental',
+            'Educational',
+            'Community Service',
+            'Health and Wellness'
+        ];
+        res.render('categories', { 
+            pageTitle: 'Categories', 
+            categories: projectCategories 
+        });
+    } catch (error) {
+        res.status(500).send("Server Error");
+    }
+});
+
+app.listen(port, () => {
+    console.log(`Server is running locally at http://localhost:${port}`);
+});
