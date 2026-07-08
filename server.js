@@ -8,18 +8,18 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Replicate __dirname in ESM
+// Replicate __dirname for ESM syntax
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Set view engine
+// Set up the dynamic template engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Static middleware to serve the public folder (CSS and Images)
+// Serve static assets out of the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes using async/await arrow functions
+// 1) Home Route using async/await arrow function syntax
 app.get('/', async (req, res) => {
     try {
         res.render('home', { pageTitle: 'Home' });
@@ -28,6 +28,7 @@ app.get('/', async (req, res) => {
     }
 });
 
+// 2) Organizations Route
 app.get('/organizations', async (req, res) => {
     try {
         res.render('organizations', { pageTitle: 'Organizations' });
@@ -36,6 +37,7 @@ app.get('/organizations', async (req, res) => {
     }
 });
 
+// 3) Projects Route
 app.get('/projects', async (req, res) => {
     try {
         res.render('projects', { pageTitle: 'Service Projects' });
@@ -44,6 +46,7 @@ app.get('/projects', async (req, res) => {
     }
 });
 
+// 4) Categories Route (Explicit assignment requirement)
 app.get('/categories', async (req, res) => {
     try {
         const projectCategories = [
@@ -62,5 +65,5 @@ app.get('/categories', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is running locally at http://localhost:${port}`);
+    console.log(`Application is running on port ${port}`);
 });
