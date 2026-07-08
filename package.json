@@ -1,11 +1,15 @@
 {
-  "name": "w01-site",
+  "name": "cse340-w01-project",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "CSE 340 Week 01 Initial Site Creation",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2"
   }
 }
