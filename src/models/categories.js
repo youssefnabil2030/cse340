@@ -1,1 +1,14 @@
+<%- include('partials/header') %>
 
+<section class="content-block">
+    <h1><%= pageTitle %></h1>
+    <p class="subtitle">Browse our service opportunities by choosing a category below:</p>
+
+    <ul class="categories-list">
+        <% categories.forEach(category => { %>
+            <li class="category-item"><%= category %></li>
+        <% }) %>
+    </ul>
+</section>
+
+<%- include('partials/footer') %>
