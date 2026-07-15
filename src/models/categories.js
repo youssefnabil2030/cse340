@@ -1,4 +1,5 @@
-import pool from '../db.js'; // Adjust this path to your database configuration file
+// src/models/categories.js
+import pool from '../db.js';
 
 /**
  * Fetch all categories from the database, ordered alphabetically
