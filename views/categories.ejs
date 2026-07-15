@@ -1,14 +1,51 @@
-<!-- Inside views/categories.ejs categories.forEach loop -->
-<li class="category-item" data-id="<%= category.id %>">
-    <!-- Card Image Header (Circular now) -->
-    <div class="category-image-wrapper">
-        <img src="<%= imageUrl %>" alt="<%= category.name %>" class="category-card-img" loading="lazy">
-    </div>
-    
-    <!-- Card Body Details -->
-    <div class="category-info">
-        <!-- Changed to use the new CSS class for icon -->
-        <span class="material-symbols-rounded category-icon">folder_open</span>
-        <span class="category-title"><%= category.name %></span>
-    </div>
-</li>
+<%- include('partials/header') %>
+
+<!-- Google Fonts & Material Symbols for modern UI icons -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+
+<section class="content-block">
+    <h1><%= pageTitle %></h1>
+    <p class="subtitle">Browse our service opportunities by choosing a category below:</p>
+
+    <ul class="categories-list">
+        <% 
+        // Map category names to high-quality Unsplash images representing active community service
+        const imageMap = {
+            // Environmental: Volunteers planting trees / cleaning up nature
+            'Environmental': 'https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=500&auto=format&fit=crop&q=60',
+            
+            // Educational: Tutoring kids and sharing knowledge
+            'Educational': 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500&auto=format&fit=crop&q=60',
+            
+            // Community Service: Volunteers working together on local infrastructure/food donation
+            'Community Service': 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=500&auto=format&fit=crop&q=60',
+            
+            // Health and Wellness: Healthcare volunteers assisting elderly/community care
+            'Health and Wellness': 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=500&auto=format&fit=crop&q=60'
+        };
+        
+        // Fallback image showing a diverse group of hands coming together (symbolizing unity)
+        const defaultImage = 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=500&auto=format&fit=crop&q=60';
+        %>
+
+        <% categories.forEach(category => { 
+            // Resolve the image URL based on the category name
+            const imageUrl = imageMap[category.name] || defaultImage;
+        %>
+            <li class="category-item" data-id="<%= category.id %>">
+                <!-- Card Image Header -->
+                <div class="category-image-wrapper">
+                    <img src="<%= imageUrl %>" alt="<%= category.name %>" class="category-card-img" loading="lazy">
+                </div>
+                
+                <!-- Card Body Details -->
+                <div class="category-info">
+                    <span class="material-symbols-rounded" style="font-size: 28px; color: #3b82f6;">folder_open</span>
+                    <span class="category-title"><%= category.name %></span>
+                </div>
+            </li>
+        <% }) %>
+    </ul>
+</section>
+
+<%- include('partials/footer') %>
