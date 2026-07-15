@@ -1,14 +1,16 @@
-<%- include('partials/header') %>
+import pool from '../db.js'; // Adjust this path to your database configuration file
 
-<section class="content-block">
-    <h1><%= pageTitle %></h1>
-    <p class="subtitle">Browse our service opportunities by choosing a category below:</p>
-
-    <ul class="categories-list">
-        <% categories.forEach(category => { %>
-            <li class="category-item"><%= category %></li>
-        <% }) %>
-    </ul>
-</section>
-
-<%- include('partials/footer') %>
+/**
+ * Fetch all categories from the database, ordered alphabetically
+ * @returns {Promise<Array>} Array of category objects { id, name }
+ */
+export async function getAllCategories() {
+    const queryText = 'SELECT id, name FROM categories ORDER BY name ASC;';
+    try {
+        const { rows } = await pool.query(queryText);
+        return rows;
+    } catch (error) {
+        console.error('Error in getAllCategories model:', error);
+        throw error;
+    }
+}
