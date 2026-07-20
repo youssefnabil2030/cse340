@@ -9,42 +9,35 @@
 
     <ul class="categories-list">
         <% 
-        // Map category names to high-quality Unsplash images representing active community service
+        // Map category names to Unsplash images matching setup.sql seed data
         const imageMap = {
-            // Environmental: Volunteers planting trees / cleaning up nature
-            'Environmental': 'https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=500&auto=format&fit=crop&q=60',
-            
-            // Educational: Tutoring kids and sharing knowledge
-            'Educational': 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500&auto=format&fit=crop&q=60',
-            
-            // Community Service: Volunteers working together on local infrastructure/food donation
-            'Community Service': 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=500&auto=format&fit=crop&q=60',
-            
-            // Health and Wellness: Healthcare volunteers assisting elderly/community care
-            'Health and Wellness': 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=500&auto=format&fit=crop&q=60'
+            'Community Outreach': 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=500&auto=format&fit=crop&q=60',
+            'Environmental Cleanup': 'https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=500&auto=format&fit=crop&q=60',
+            'Education & Tutoring': 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500&auto=format&fit=crop&q=60',
+            'Disaster Relief': 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=500&auto=format&fit=crop&q=60'
         };
         
-        // Fallback image showing a diverse group of hands coming together (symbolizing unity)
         const defaultImage = 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=500&auto=format&fit=crop&q=60';
         %>
 
-        <% categories.forEach(category => { 
-            // Resolve the image URL based on the category name
-            const imageUrl = imageMap[category.name] || defaultImage;
-        %>
-            <li class="category-item" data-id="<%= category.id %>">
-                <!-- Card Image Header -->
-                <div class="category-image-wrapper">
-                    <img src="<%= imageUrl %>" alt="<%= category.name %>" class="category-card-img" loading="lazy">
-                </div>
-                
-                <!-- Card Body Details -->
-                <div class="category-info">
-                    <span class="material-symbols-rounded" style="font-size: 28px; color: #3b82f6;">folder_open</span>
-                    <span class="category-title"><%= category.name %></span>
-                </div>
-            </li>
-        <% }) %>
+        <% if (categories && categories.length > 0) { %>
+            <% categories.forEach(category => { 
+                const imageUrl = imageMap[category.name] || defaultImage;
+            %>
+                <li class="category-item" data-id="<%= category.id %>">
+                    <div class="category-image-wrapper">
+                        <img src="<%= imageUrl %>" alt="<%= category.name %>" class="category-card-img" loading="lazy">
+                    </div>
+                    
+                    <div class="category-info">
+                        <span class="material-symbols-rounded" style="font-size: 28px; color: #3b82f6;">folder_open</span>
+                        <span class="category-title"><%= category.name %></span>
+                    </div>
+                </li>
+            <% }) %>
+        <% } else { %>
+            <p>No categories retrieved from database.</p>
+        <% } %>
     </ul>
 </section>
 
