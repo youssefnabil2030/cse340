@@ -1,82 +1,62 @@
 -- ====================================================================
--- 1. Create Organizations Table
+-- 1. Create Clean Slate (Drop existing tables in reverse order of dependencies)
 -- ====================================================================
-CREATE TABLE IF NOT EXISTS organizations (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(150) NOT NULL UNIQUE,
-    description TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+DROP TABLE IF EXISTS public.project_categories;
+DROP TABLE IF EXISTS public.categories;
+DROP TABLE IF EXISTS public.projects;
+DROP TABLE IF EXISTS public.organizations;
 
 -- ====================================================================
--- 2. Create Projects Table (Belongs to an Organization)
+-- 2. Create Base Tables
 -- ====================================================================
-CREATE TABLE IF NOT EXISTS projects (
+CREATE TABLE public.organizations (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL UNIQUE,
+    description TEXT
+);
+
+CREATE TABLE public.projects (
     id SERIAL PRIMARY KEY,
     name VARCHAR(150) NOT NULL,
     description TEXT,
-    organization_id INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_organization
-        FOREIGN KEY (organization_id) 
-        REFERENCES organizations(id)
-        ON DELETE SET NULL
+    organization_id INT REFERENCES public.organizations(id) ON DELETE SET NULL
 );
 
--- ====================================================================
--- 3. Create Categories Table
--- ====================================================================
-CREATE TABLE IF NOT EXISTS categories (
+CREATE TABLE public.categories (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE
 );
 
 -- ====================================================================
--- 4. Create Junction Table (Many-to-Many Link)
+-- 3. Create Many-to-Many Junction Table
 -- ====================================================================
-CREATE TABLE IF NOT EXISTS project_categories (
-    project_id INT NOT NULL,
-    category_id INT NOT NULL,
-    PRIMARY KEY (project_id, category_id),
-    CONSTRAINT fk_project 
-        FOREIGN KEY (project_id) 
-        REFERENCES projects(id) 
-        ON DELETE CASCADE,
-    CONSTRAINT fk_category 
-        FOREIGN KEY (category_id) 
-        REFERENCES categories(id) 
-        ON DELETE CASCADE
+CREATE TABLE public.project_categories (
+    project_id INT NOT NULL REFERENCES public.projects(id) ON DELETE CASCADE,
+    category_id INT NOT NULL REFERENCES public.categories(id) ON DELETE CASCADE,
+    PRIMARY KEY (project_id, category_id)
 );
 
 -- ====================================================================
--- 5. Seed Data (Ensures your EJS pages pull valid rows)
+-- 4. Seed Data (Ensures no empty arrays pass to your EJS files)
 -- ====================================================================
-
--- Seed Organizations
-INSERT INTO organizations (name, description) VALUES
+INSERT INTO public.organizations (name, description) VALUES
     ('Hope Worldwide', 'Global non-profit focused on community development.'),
-    ('EcoGuardians', 'Action-driven environmental protection group.')
-ON CONFLICT (name) DO NOTHING;
+    ('EcoGuardians', 'Action-driven environmental protection group.');
 
--- Seed Projects (Using subqueries to safely match IDs dynamically)
-INSERT INTO projects (name, description, organization_id) VALUES
-    ('City Food Drive', 'Distributing meals to local shelters.', (SELECT id FROM organizations WHERE name = 'Hope Worldwide')),
-    ('River Cleanup Initiative', 'Removing plastics from the local riverbed.', (SELECT id FROM organizations WHERE name = 'EcoGuardians')),
-    ('Green Space Development', 'Planting trees and creating urban community gardens.', (SELECT id FROM organizations WHERE name = 'EcoGuardians'))
-;
+INSERT INTO public.projects (name, description, organization_id) VALUES
+    ('City Food Drive', 'Distributing meals to local shelters.', 1),
+    ('River Cleanup Initiative', 'Removing plastics from the local riverbed.', 2),
+    ('Green Space Development', 'Planting trees and creating urban community gardens.', 2);
 
--- Seed Categories
-INSERT INTO categories (name) VALUES 
+INSERT INTO public.categories (name) VALUES 
     ('Community Outreach'),
     ('Environmental Cleanup'),
     ('Education & Tutoring'),
-    ('Disaster Relief')
-ON CONFLICT (name) DO NOTHING;
+    ('Disaster Relief');
 
--- Seed Associations
-INSERT INTO project_categories (project_id, category_id) VALUES
-    ((SELECT id FROM projects WHERE name = 'City Food Drive'), (SELECT id FROM categories WHERE name = 'Community Outreach')),
-    ((SELECT id FROM projects WHERE name = 'River Cleanup Initiative'), (SELECT id FROM categories WHERE name = 'Environmental Cleanup')),
-    ((SELECT id FROM projects WHERE name = 'Green Space Development'), (SELECT id FROM categories WHERE name = 'Community Outreach')),
-    ((SELECT id FROM projects WHERE name = 'Green Space Development'), (SELECT id FROM categories WHERE name = 'Environmental Cleanup'))
-ON CONFLICT DO NOTHING;
+-- Associate each project with at least one category
+INSERT INTO public.project_categories (project_id, category_id) VALUES
+    (1, 1), -- Food Drive -> Community Outreach
+    (2, 2), -- River Cleanup -> Environmental Cleanup
+    (3, 1), -- Green Space -> Community Outreach
+    (3, 2); -- Green Space -> Environmental Cleanup
