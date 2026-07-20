@@ -5,19 +5,22 @@
     <p class="subtitle">Meet our incredible partner organizations hosting service events.</p>
 
     <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
-        <!-- تأكد من وجود ملف صورة في مجلد public/images -->
         <img src="/images/org-placeholder.jpg" alt="Partner Organizations" style="max-width: 100%; height: auto; border-radius: 8px; max-height: 300px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
     </div>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; text-align: left;">
-        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 6px; border-top: 4px solid #2ecc71;">
-            <h3>Hope Food Bank</h3>
-            <p>Providing dynamic food security solutions and local community support distributions daily.</p>
-        </div>
-        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 6px; border-top: 4px solid #2ecc71;">
-            <h3>Green Tomorrow</h3>
-            <p>An international environmental group dedicated to urban tree planting and clean energy advocacy.</p>
-        </div>
+        <% if (organizations && organizations.length > 0) { %>
+            <% organizations.forEach(function(org) { %>
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 6px; border-top: 4px solid #2ecc71;">
+                    <h3><%= org.name %></h3>
+                    <p><%= org.description || 'No description provided yet.' %></p>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <div style="grid-column: 1 / -1; text-align: center; color: #666;">
+                <p>No partner organizations found in the database system.</p>
+            </div>
+        <% } %>
     </div>
 </section>
 
