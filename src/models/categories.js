@@ -1,17 +1,19 @@
-// src/models/categories.js
-import pool from '../db.js';
+const db = require("./db")
 
-/**
- * Fetch all categories from the database, ordered alphabetically
- * @returns {Promise<Array>} Array of category objects { id, name }
- */
-export async function getAllCategories() {
-    const queryText = 'SELECT id, name FROM categories ORDER BY name ASC;';
-    try {
-        const { rows } = await pool.query(queryText);
-        return rows;
-    } catch (error) {
-        console.error('Error in getAllCategories model:', error);
-        throw error;
-    }
+const Category = {}
+
+/* ******************************************
+ * Get all categories from the database
+ * **************************************** */
+Category.getAll = async function() {
+  try {
+    const sql = "SELECT * FROM public.categories ORDER BY name ASC"
+    const result = await db.query(sql)
+    return result.rows
+  } catch (error) {
+    console.error("Error inside Category.getAll model: " + error)
+    throw error
+  }
 }
+
+module.exports = Category
