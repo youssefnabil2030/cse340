@@ -4,6 +4,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 // Import your database models
+import fs from 'fs';
+import db from './src/db.js';
 import Category from './src/models/categories.js';
 import Organization from './src/models/organizations.js';
 import Project from './src/models/projects.js';
@@ -19,6 +21,18 @@ const __dirname = path.dirname(__filename);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+try {
+  const sql = fs.readFileSync('./src/setup.sql', 'utf8');
+  await db.query(sql);
+  console.log("Database initialized successfully!");
+} catch (err) {
+  console.error("Database setup failed:", err);
+}
+
+
+
 
 // 1) Home Route
 app.get('/', async (req, res) => {
