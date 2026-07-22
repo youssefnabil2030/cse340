@@ -1,19 +1,32 @@
-<%- include('partials/header') %>
+<main class="content-block">
+  <h1>Community Projects</h1>
+  <p class="subtitle">Explore active initiatives driving community outreach and environmental protection.</p>
 
-<section class="content-block">
-    <h1><%= pageTitle %></h1>
-    <p class="subtitle">Current live active community service opportunities available for registration.</p>
+  <% if (projects && projects.length > 0) { %>
+    <div class="card-grid">
+      <% projects.forEach(function(project) { %>
+        <article class="card-item">
+          <div class="card-header-flex" style="justify-content: space-between;">
+            <h2 class="card-title"><%= project.name %></h2>
+            <span class="badge badge-active">Active</span>
+          </div>
 
-    <div style="display: flex; flex-direction: column; gap: 1.5rem; text-align: left;">
-        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-            <h3>Annual Beach Clean-Up Drive</h3>
-            <p><strong>Organization:</strong> Green Tomorrow | <strong>Status:</strong> Recruiting</p>
-        </div>
-        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-            <h3>Weekend Math Tutoring Session</h3>
-            <p><strong>Organization:</strong> Future Academy Mentors | <strong>Status:</strong> Active</p>
-        </div>
+          <div class="card-body">
+            <p class="card-description"><%= project.description %></p>
+            <ul class="meta-list">
+              <li><strong>Organization ID:</strong> #<%= project.organization_id %></li>
+              <li><strong>Start Date:</strong> <%= new Date(project.start_date).toLocaleDateString() %></li>
+            </ul>
+          </div>
+
+          <div class="card-footer" style="justify-content: space-between; align-items: center;">
+            <span class="badge badge-progress">Community Initiative</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">ID: <%= project.project_id %></span>
+          </div>
+        </article>
+      <% }) %>
     </div>
-</section>
-
-<%- include('partials/footer') %>
+  <% } else { %>
+    <p class="subtitle">No active projects currently available in the database system.</p>
+  <% } %>
+</main>
