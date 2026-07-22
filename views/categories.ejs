@@ -1,44 +1,26 @@
-<%- include('partials/header') %>
+<main class="content-block">
+  <h1>Service Categories</h1>
+  <p class="subtitle">Filter community outreach initiatives by primary service domain.</p>
 
-<!-- Google Fonts & Material Symbols for modern UI icons -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
-
-<section class="content-block">
-    <h1><%= pageTitle %></h1>
-    <p class="subtitle">Browse our service opportunities by choosing a category below:</p>
-
+  <% if (categories && categories.length > 0) { %>
     <ul class="categories-list">
-        <% 
-        // Map category names to Unsplash images matching setup.sql seed data
-        const imageMap = {
-            'Community Outreach': 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=500&auto=format&fit=crop&q=60',
-            'Environmental Cleanup': 'https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=500&auto=format&fit=crop&q=60',
-            'Education & Tutoring': 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500&auto=format&fit=crop&q=60',
-            'Disaster Relief': 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=500&auto=format&fit=crop&q=60'
-        };
-        
-        const defaultImage = 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=500&auto=format&fit=crop&q=60';
-        %>
-
-        <% if (categories && categories.length > 0) { %>
-            <% categories.forEach(category => { 
-                const imageUrl = imageMap[category.name] || defaultImage;
-            %>
-                <li class="category-item" data-id="<%= category.id %>">
-                    <div class="category-image-wrapper">
-                        <img src="<%= imageUrl %>" alt="<%= category.name %>" class="category-card-img" loading="lazy">
-                    </div>
-                    
-                    <div class="category-info">
-                        <span class="material-symbols-rounded" style="font-size: 28px; color: #3b82f6;">folder_open</span>
-                        <span class="category-title"><%= category.name %></span>
-                    </div>
-                </li>
-            <% }) %>
-        <% } else { %>
-            <p>No categories retrieved from database.</p>
-        <% } %>
+      <% categories.forEach(function(category) { %>
+        <li class="category-item">
+          <div class="category-image-wrapper">
+            <img 
+              src="/images/categories/<%= category.name.toLowerCase().replace(/[^a-z0-0]/g, '-') %>.jpg" 
+              alt="<%= category.name %> Image" 
+              class="category-card-img"
+              onerror="this.src='/images/categories/default-category.jpg';"
+            />
+          </div>
+          <div class="category-info">
+            <span class="category-title"><%= category.name %></span>
+          </div>
+        </li>
+      <% }) %>
     </ul>
-</section>
-
-<%- include('partials/footer') %>
+  <% } else { %>
+    <p class="subtitle">No service categories listed in the database system.</p>
+  <% } %>
+</main>
