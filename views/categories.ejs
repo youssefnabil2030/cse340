@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="public/css/style.css" />
+
 <main class="content-block">
   <h1>Service Categories</h1>
   <p class="subtitle">Filter community outreach initiatives by primary service domain.</p>
@@ -8,7 +10,7 @@
         <li class="category-item">
           <div class="category-image-wrapper">
             <img 
-              src="/images/categories/<%= category.name.toLowerCase().replace(/[^a-z0-0]/g, '-') %>.jpg" 
+              src="/images/categories/<%= category.name.toLowerCase().replace(/[^a-z0-9]/g, '-') %>.jpg" 
               alt="<%= category.name %> Image" 
               class="category-card-img"
               onerror="this.src='/images/categories/default-category.jpg';"
