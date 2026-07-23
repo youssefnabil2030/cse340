@@ -10,10 +10,11 @@
         <article class="card-item">
           <div class="card-header-flex">
             <img 
-              src="/images/logos/<%= org.logo_filename %>" 
+              src="<%= org.logo_url || 'https://api.dicebear.com/7.x/identicon/svg?seed=' + encodeURIComponent(org.name) %>" 
               alt="<%= org.name %> Logo" 
               class="org-logo"
-              onerror="this.src='/images/logos/default-logo.png';" 
+              loading="lazy"
+              onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=default';" 
             />
             <h2 class="card-title"><%= org.name %></h2>
           </div>
