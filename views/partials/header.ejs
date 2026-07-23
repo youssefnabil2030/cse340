@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= pageTitle %> | Community Service Portal</title>
-    <link rel="stylesheet" href="../public/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle + ' - Community Network' : 'Community Network' %></title>
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-    <header class="main-header">
-        <nav class="navbar">
-            <div class="logo">ServiceConnect</div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/organizations">Organizations</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/categories">Categories</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main class="container">
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-brand">
+      <img 
+        src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=100&auto=format&fit=crop&q=80" 
+        alt="Network Logo" 
+        class="nav-logo" 
+      />
+      <span class="brand-name">ImpactNet</span>
+    </a>
+    
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/organizations">Organizations</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/categories">Categories</a></li>
+    </ul>
+  </div>
+</nav>
