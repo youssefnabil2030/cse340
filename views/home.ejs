@@ -1,13 +1,13 @@
-<link rel="stylesheet" href="/css/style.css" />
+<%- include('partials/header') %>
 
 <main class="content-block">
   <div class="hero-section">
     <div class="hero-text">
-      <h1>Empowering Local Communities</h1>
-      <p class="subtitle">Connecting volunteers, non-profits, and active projects to create real-world impact.</p>
+      <h1>Community Service Network</h1>
+      <p class="subtitle">Connecting volunteers, non-profits, and active outreach projects in one platform.</p>
       <div class="hero-actions">
-        <a href="/projects" class="btn-primary">Explore Projects</a>
-        <a href="/organizations" class="btn-secondary">Partner Organizations</a>
+        <a href="/projects" class="btn-primary">Explore Projects &rarr;</a>
+        <a href="/organizations" class="btn-secondary">View Organizations</a>
       </div>
     </div>
     <div class="hero-image-wrapper">
@@ -20,18 +20,35 @@
     </div>
   </div>
 
-  <section class="stats-grid">
-    <div class="stat-card">
-      <h3>Active Projects</h3>
-      <p class="stat-number">24+</p>
-    </div>
-    <div class="stat-card">
-      <h3>Partner Non-Profits</h3>
-      <p class="stat-number">12</p>
-    </div>
-    <div class="stat-card">
-      <h3>Service Domains</h3>
-      <p class="stat-number">6</p>
-    </div>
-  </section>
+  <div class="card-grid">
+    <article class="card-item">
+      <div class="card-body">
+        <h2 class="card-title">Partner Organizations</h2>
+        <p class="card-description">Discover non-profits driving local sustainability and education.</p>
+      </div>
+      <div class="card-footer">
+        <a href="/organizations" class="btn-sm">Browse Organizations &rarr;</a>
+      </div>
+    </article>
+
+    <article class="card-item">
+      <div class="card-body">
+        <h2 class="card-title">Active Projects</h2>
+        <p class="card-description">Explore active river cleanups, food drives, and youth mentoring.</p>
+      </div>
+      <div class="card-footer">
+        <a href="/projects" class="btn-sm">View Projects &rarr;</a>
+      </div>
+    </article>
+
+    <article class="card-item">
+      <div class="card-body">
+        <h2 class="card-title">Service Categories</h2>
+        <p class="card-description">Filter initiatives by domain — from disaster relief to environmental care.</p>
+      </div>
+      <div class="card-footer">
+        <a href="/categories" class="btn-sm">Explore Categories &rarr;</a>
+      </div>
+    </article>
+  </div>
 </main>
