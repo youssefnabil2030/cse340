@@ -10,10 +10,11 @@
         <li class="category-item">
           <div class="category-image-wrapper">
             <img 
-              src="/images/categories/<%= category.name.toLowerCase().replace(/[^a-z0-9]/g, '-') %>.jpg" 
+              src="<%= category.image_url || 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=500&auto=format&fit=crop&q=80' %>" 
               alt="<%= category.name %> Image" 
               class="category-card-img"
-              onerror="this.src='/images/categories/default-category.jpg';"
+              loading="lazy"
+              onerror="this.src='https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=500&auto=format&fit=crop&q=80';"
             />
           </div>
           <div class="category-info">
