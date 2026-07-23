@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/css/style.css" />
+<%- include('partials/header') %>
 
 <main class="content-block">
   <h1>Community Projects</h1>
@@ -8,7 +8,18 @@
     <div class="card-grid">
       <% projects.forEach(function(project) { %>
         <article class="card-item">
-          <div class="card-header-flex" style="justify-content: space-between;">
+          <!-- Project Card Image -->
+          <div class="category-image-wrapper">
+            <img 
+              src="<%= project.image_url || 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&auto=format&fit=crop&q=80' %>" 
+              alt="<%= project.name %> Image" 
+              class="category-card-img"
+              loading="lazy"
+              onerror="this.src='https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&auto=format&fit=crop&q=80';"
+            />
+          </div>
+
+          <div class="card-header-flex" style="justify-content: space-between; padding: 1rem 1rem 0 1rem;">
             <h2 class="card-title"><%= project.name %></h2>
             <span class="badge badge-active">Active</span>
           </div>
@@ -32,3 +43,5 @@
     <p class="subtitle">No active projects currently available in the database system.</p>
   <% } %>
 </main>
+
+<%- include('partials/footer') %>
